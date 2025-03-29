@@ -11,8 +11,6 @@ const isPublicRoute = createRouteMatcher(["/","/sign-in", "/sign-up","/api/webho
 export default clerkMiddleware(async (req) => {
   try {
     const { userId } = await auth();
-    console.warn("Here ")
-    console.log(userId)
     if (!userId) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
