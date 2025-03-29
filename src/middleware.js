@@ -1,4 +1,3 @@
-import { useAuth } from "@clerk/nextjs";
 import {
   auth,
   clerkMiddleware,
@@ -7,11 +6,13 @@ import {
 } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
+const isPublicRoute = createRouteMatcher(["/","/sign-in", "/sign-up","/api/webhook/register"]);
 
-export default clerkMiddleware(async (_, req) => {
+export default clerkMiddleware(async (req) => {
   try {
-    const { userId } = useAuth();
+    const { userId } = await auth();
+    console.warn("Here ")
+    console.log(userId)
     if (!userId) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
